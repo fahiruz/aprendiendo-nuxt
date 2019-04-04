@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nuxt"
   },
-  "author": "Esteban",
+  "author": "Karen",
   "license": "ISC",
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.15",
