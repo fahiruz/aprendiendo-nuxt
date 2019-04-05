@@ -6,7 +6,7 @@ var config = {
   projectId: "nuxt-eb99e",
   storageBucket: "nuxt-eb99e.appspot.com",
   messagingSenderId: "580345173005"
-};
+}; 
 
   if(!firebase.apps.length){
     firebase.initializeApp(config);

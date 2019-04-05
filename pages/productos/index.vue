@@ -19,11 +19,11 @@
 <script>
 import { db } from '../../services/firebase'
 export default{
-    asyncdata(){
-        return db.collection("producto").get().then((productosSnap)=>{//Llamar a una coleccion que recibe una cadena de texto
+    asyncData(){
+        return db.collection("producto").get().then((productoSnap)=>{//Llamar a una coleccion que recibe una cadena de texto
             let producto =[]
 
-            productosSnap.forEach((value)=>{//productosSnap es un arreglo
+            productoSnap.forEach((value)=>{//productosSnap es un arreglo
                 producto.push(value.data())//con data lo recuperamos y asignamos a producto
             })
 
@@ -34,11 +34,9 @@ export default{
     },
     data(){
         return{
-        fields: ['Imagen', 'cantidad', 'nombre', 'precio', 'Acciones']
+        fields: ['cantidad', 'nombre', 'precio']
     }
-    },
-    
+    },  
 
-}
-    
+}    
 </script>
