@@ -11,13 +11,9 @@
 
     </div>
     <div>
-      <b-table responsive striped hover :fields="fields" :items="producto"></b-table>
-      <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
+      <p class="mt-3">Página número: {{ currentPage }}</p>
+      <b-table responsive striped hover :fields="fields" :items="producto" id="list_producto" :per-page="perPage" :current-page="currentPage" small></b-table>
+      <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="list_producto"></b-pagination>
     </div>
   </div>
 </template>
@@ -34,9 +30,16 @@ export default{
             })
 
             return{
+                perPage: 10, //Número de páginas a mostrar
+                currentPage: 1, //Desde de donde inicia la página
                 producto
             }
         })
+    },
+    computed: {
+      rows(){
+        return this.producto.length;//VARIABLE COMPUTADA --- CÓMPUTO DE FILAS 
+      }
     },
     data(){
         return{
