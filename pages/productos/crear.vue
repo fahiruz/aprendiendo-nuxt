@@ -19,9 +19,10 @@
         <b-form-input id="cantidad" type="number" v-model="form.cantidad" required placeholder="Ingrese cantidad existente"></b-form-input>
       </b-form-group>
 
-      <b-button variant="primary" type="submit">Guardar</b-button>
+      <b-button variant="primary" type="submit" :disabled="guardando">Guardar</b-button>
       <b-button type="submit" variant="danger">Limpiar</b-button> 
     </b-form>
+    <b-spinner  v-if="guardando" type = "grow"  label = "Cargando ..." > </b-spinner > 
   </div>
 </template>
 
@@ -34,12 +35,14 @@
             nombre: '',
             cantidad: '',
             precio: ''
-          }
+          },
+          guardando:false,
           
         }
       },
       methods: {
         guardarProducto(){
+          this.guardando=true
           db.collection("producto").add(this.form).then(res =>{//.then permite que se ejecute
             this.$router.push({//PAra volver a productos
               path: "/productos"

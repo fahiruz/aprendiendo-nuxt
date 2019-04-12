@@ -12,7 +12,13 @@
     </div>
     <div>
       <p class="mt-3">Página número: {{ currentPage }}</p>
-      <b-table responsive striped hover :fields="fields" :items="producto" id="list_producto" :per-page="perPage" :current-page="currentPage" small></b-table>
+
+      <b-table responsive striped hover :fields="fields" :items="producto" id="list_producto" :per-page="perPage" :current-page="currentPage" small>
+        <template slot="acciones"> 
+          <b-button b-col lg="4" class="pb-2" size="sm" variant="outline-success">Editar</b-button>
+          <b-button b-col lg="4" class="pb-2" size="sm" variant="outline-danger" v-if="eliminar">Eliminar</b-button>
+        </template><!--la variable debe llamarse a la variable del fields en script-->
+      </b-table>
       <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="list_producto"></b-pagination>
     </div>
   </div>
@@ -41,9 +47,14 @@ export default{
         return this.producto.length;//VARIABLE COMPUTADA --- CÓMPUTO DE FILAS 
       }
     },
+    methods:{
+      eliminarProducto(){
+        db.collection('producto').delete(id)
+      }
+    },
     data(){
         return{
-        fields: ['cantidad', 'nombre', 'precio']
+        fields: ['cantidad', 'nombre', 'precio', 'acciones']
     }
     },  
 
