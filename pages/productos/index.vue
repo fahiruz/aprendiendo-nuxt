@@ -1,4 +1,4 @@
- <template>
+<template>
   <div class="container">
     <div class="row">
       <div class="col-6">
@@ -14,9 +14,9 @@
       <p class="mt-3">Página número: {{ currentPage }}</p>
 
       <b-table responsive striped hover :fields="fields" :items="producto" id="list_producto" :per-page="perPage" :current-page="currentPage" small>
-        <template slot="acciones"> 
+        <template slot="acciones" slot-scope="row"> 
           <b-button b-col lg="4" class="pb-2" size="sm" variant="outline-success">Editar</b-button>
-          <b-button b-col lg="4" class="pb-2" size="sm" variant="outline-danger" v-if="eliminar">Eliminar</b-button>
+          <b-button b-col lg="4" class="pb-2" size="sm" variant="outline-danger" @click="eliminarProducto(row.item.id)">Eliminar</b-button>
         </template><!--la variable debe llamarse a la variable del fields en script-->
       </b-table>
       <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="list_producto"></b-pagination>
@@ -32,7 +32,7 @@ export default{
             let producto =[]
 
             productoSnap.forEach((value)=>{//productosSnap es un arreglo
-                producto.push(value.data())//con data lo recuperamos y asignamos a producto
+                producto.push({id:value.id,...value.data()})//con data lo recuperamos y asignamos a producto
             })
 
             return{
@@ -46,17 +46,27 @@ export default{
       rows(){
         return this.producto.length;//VARIABLE COMPUTADA --- CÓMPUTO DE FILAS 
       }
-    },
-    methods:{
-      eliminarProducto(){
-        db.collection('producto').delete(id)
-      }
-    },
-    data(){
+    }, data(){
         return{
         fields: ['cantidad', 'nombre', 'precio', 'acciones']
-    }
-    },  
+    };
+    },
+    methods:{
+      eliminarProducto(id){
+        let index;
+        this.producto.map((value,key)=>{
+          if(value.id==id){
+            index=key;
+          }
+        });
+
+        db.collection('producto').doc(id).delete().then(()=>{
+          this.producto.splice(index,1);        
+
+      });
+    },
+     
 
 }    
+};
 </script>
